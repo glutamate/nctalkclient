@@ -25,7 +25,12 @@ class TalkCapabilities {
                         Callback("ERROR", `Capabilities reply string is not a JSON ${res.body}`);
                         break;
                     }
-                    this.spreedfeatures = this.capabilities.ocs.data.capabilities.spreed.features;
+                    this.spreedfeatures = this.capabilities?.ocs?.data?.capabilities?.spreed?.features;
+                    if(!this.spreedfeatures) {
+                        this.capabilities = undefined;
+                        Callback("ERROR", `Capabilities reply is not a expected JSON format`);
+                        return;
+                    }
 
                     if (this.spreedfeatures.find((element) => element.includes("conversation")) == "conversation-v4") {
                         this.conversationAPIversion = 4;
